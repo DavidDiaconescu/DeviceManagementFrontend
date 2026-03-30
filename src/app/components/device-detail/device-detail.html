@@ -45,22 +45,11 @@
         <hr />
 
         @if (!device.assignedUserId) {
-          <div>
-            <h5>Assign Device</h5>
-            <div class="d-flex gap-2">
-              <select class="form-select w-auto" [(ngModel)]="selectedUserId">
-                <option [ngValue]="null" disabled>Select a user...</option>
-                @for (user of users; track user.id) {
-                  <option [ngValue]="user.id">{{ user.name }}</option>
-                }
-              </select>
-              <button class="btn btn-success" [disabled]="!selectedUserId" (click)="assign()">Assign</button>
-            </div>
-          </div>
+          <button class="btn btn-success" (click)="assign()">Assign to me</button>
+        } @else if (device.assignedUserName === currentUserName) {
+          <button class="btn btn-outline-danger" (click)="unassign()">Unassign</button>
         } @else {
-          <div>
-            <button class="btn btn-outline-danger" (click)="unassign()">Unassign</button>
-          </div>
+          <p class="text-muted mb-0">Currently in use by <strong>{{ device.assignedUserName }}</strong>.</p>
         }
       </div>
     </div>

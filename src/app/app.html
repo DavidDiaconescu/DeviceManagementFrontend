@@ -2,14 +2,26 @@
   <div class="container">
     <a class="navbar-brand" routerLink="/">Device Manager</a>
     <div class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/devices" routerLinkActive="active">Devices</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
-        </li>
-      </ul>
+      @if (authService.isLoggedIn()) {
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/devices" routerLinkActive="active">Devices</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <span class="navbar-text text-light">{{ authService.getCurrentUserName() }}</span>
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">Logout</button>
+        </div>
+      } @else {
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+          </li>
+        </ul>
+      }
     </div>
   </div>
 </nav>

@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 import {
   Device,
   CreateDeviceRequest,
-  UpdateDeviceRequest,
-  AssignDeviceRequest
+  UpdateDeviceRequest
 } from '../models/device.model';
 
 @Injectable({
@@ -36,11 +35,11 @@ export class DeviceService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  assign(deviceId: number, request: AssignDeviceRequest): Observable<Device> {
-    return this.http.post<Device>(`${this.baseUrl}/${deviceId}/assign`, request);
+  assign(deviceId: number): Observable<Device> {
+    return this.http.post<Device>(`${this.baseUrl}/${deviceId}/assign`, {});
   }
 
-  unassign(deviceId: number, request: AssignDeviceRequest): Observable<Device> {
-    return this.http.delete<Device>(`${this.baseUrl}/${deviceId}/unassign`, { body: request });
+  unassign(deviceId: number): Observable<Device> {
+    return this.http.delete<Device>(`${this.baseUrl}/${deviceId}/unassign`, { body: {} });
   }
 }

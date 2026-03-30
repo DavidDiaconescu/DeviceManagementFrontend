@@ -1,29 +1,29 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceService } from '../../services/device';
-import { UserService } from '../../services/user';
+import { AuthService } from '../../services/auth';
 import { Device } from '../../models/device.model';
-import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-device-detail',
-  imports: [FormsModule, RouterModule],
+  imports: [RouterModule],
   templateUrl: './device-detail.html',
   styleUrl: './device-detail.scss',
 })
 export class DeviceDetail implements OnInit {
   device: Device | null = null;
-  users: User[] = [];
-  selectedUserId: number | null = null;
+  currentUserName: string | null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private deviceService: DeviceService,
-    private userService: UserService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.currentUserName = this.authService.getCurrentUserName();
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -31,23 +31,19 @@ export class DeviceDetail implements OnInit {
       this.device = device;
       this.cdr.detectChanges();
     });
-    this.userService.getAll().subscribe(users => {
-      this.users = users;
-      this.cdr.detectChanges();
-    });
   }
 
   assign(): void {
-    if (!this.device || !this.selectedUserId) return;
-    this.deviceService.assign(this.device.id, { userId: this.selectedUserId }).subscribe(device => {
+    if (!this.device) return;
+    this.deviceService.assign(this.device.id).subscribe(device => {
       this.device = device;
       this.cdr.detectChanges();
     });
   }
 
   unassign(): void {
-    if (!this.device || !this.device.assignedUserId) return;
-    this.deviceService.unassign(this.device.id, { userId: this.device.assignedUserId }).subscribe(device => {
+    if (!this.device) return;
+    this.deviceService.unassign(this.device.id).subscribe(device => {
       this.device = device;
       this.cdr.detectChanges();
     });
