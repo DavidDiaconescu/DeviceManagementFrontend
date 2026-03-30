@@ -42,4 +42,10 @@ export class DeviceService {
   unassign(deviceId: number): Observable<Device> {
     return this.http.delete<Device>(`${this.baseUrl}/${deviceId}/unassign`, { body: {} });
   }
+
+  updateDescription(id: number, description: string): Observable<Device> {
+    return this.http.put<Device>(`${this.baseUrl}/${id}/description`, JSON.stringify(description), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 }

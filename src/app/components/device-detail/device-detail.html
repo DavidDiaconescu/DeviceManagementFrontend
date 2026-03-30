@@ -30,7 +30,24 @@
           <dd class="col-sm-9">{{ device.ram }}</dd>
 
           <dt class="col-sm-3">Description</dt>
-          <dd class="col-sm-9">{{ device.description || '—' }}</dd>
+          <dd class="col-sm-9">
+            <p class="mb-2">{{ device.description || '—' }}</p>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-outline-primary"
+                      [disabled]="isGeneratingDescription"
+                      (click)="generateDescription()">
+                @if (isGeneratingDescription) {
+                  <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                  Generating...
+                } @else {
+                  Generate AI Description
+                }
+              </button>
+              @if (descriptionError) {
+                <span class="text-danger small">{{ descriptionError }}</span>
+              }
+            </div>
+          </dd>
 
           <dt class="col-sm-3">Assigned To</dt>
           <dd class="col-sm-9">
