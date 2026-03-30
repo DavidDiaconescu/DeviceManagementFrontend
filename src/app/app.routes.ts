@@ -1,3 +1,14 @@
 import { Routes } from '@angular/router';
+import { DeviceList } from './components/device-list/device-list';
+import { DeviceDetail } from './components/device-detail/device-detail';
+import { DeviceForm } from './components/device-form/device-form';
+import { UserList } from './components/user-list/user-list';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  { path: '', redirectTo: '/devices', pathMatch: 'full' },
+  { path: 'devices', component: DeviceList },
+  { path: 'devices/new', component: DeviceForm },
+  { path: 'devices/:id', component: DeviceDetail },
+  { path: 'devices/:id/edit', component: DeviceForm },
+  { path: 'users', component: UserList }
+];

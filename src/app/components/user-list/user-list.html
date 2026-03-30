@@ -1,0 +1,26 @@
+<div class="container">
+  <h2 class="mb-3">Users</h2>
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users; track user.id) {
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.location }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="3" class="text-center">No users found.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

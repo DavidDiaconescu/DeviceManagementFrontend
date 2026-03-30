@@ -1,0 +1,68 @@
+@if (device) {
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>{{ device.name }}</h2>
+      <div>
+        <a [routerLink]="['/devices', device.id, 'edit']" class="btn btn-warning me-2">Edit</a>
+        <button class="btn btn-secondary" (click)="goBack()">Back</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">Name</dt>
+          <dd class="col-sm-9">{{ device.name }}</dd>
+
+          <dt class="col-sm-3">Manufacturer</dt>
+          <dd class="col-sm-9">{{ device.manufacturer }}</dd>
+
+          <dt class="col-sm-3">Type</dt>
+          <dd class="col-sm-9">{{ device.type }}</dd>
+
+          <dt class="col-sm-3">Operating System</dt>
+          <dd class="col-sm-9">{{ device.operatingSystem }} {{ device.osVersion }}</dd>
+
+          <dt class="col-sm-3">Processor</dt>
+          <dd class="col-sm-9">{{ device.processor }}</dd>
+
+          <dt class="col-sm-3">RAM (GB)</dt>
+          <dd class="col-sm-9">{{ device.ram }}</dd>
+
+          <dt class="col-sm-3">Description</dt>
+          <dd class="col-sm-9">{{ device.description || '—' }}</dd>
+
+          <dt class="col-sm-3">Assigned To</dt>
+          <dd class="col-sm-9">
+            @if (device.assignedUserName) {
+              {{ device.assignedUserName }}
+            } @else {
+              <span class="text-muted">Unassigned</span>
+            }
+          </dd>
+        </dl>
+
+        <hr />
+
+        @if (!device.assignedUserId) {
+          <div>
+            <h5>Assign Device</h5>
+            <div class="d-flex gap-2">
+              <select class="form-select w-auto" [(ngModel)]="selectedUserId">
+                <option [ngValue]="null" disabled>Select a user...</option>
+                @for (user of users; track user.id) {
+                  <option [ngValue]="user.id">{{ user.name }}</option>
+                }
+              </select>
+              <button class="btn btn-success" [disabled]="!selectedUserId" (click)="assign()">Assign</button>
+            </div>
+          </div>
+        } @else {
+          <div>
+            <button class="btn btn-outline-danger" (click)="unassign()">Unassign</button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

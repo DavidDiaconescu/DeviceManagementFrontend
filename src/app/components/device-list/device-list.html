@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Devices</h2>
+    <a routerLink="/devices/new" class="btn btn-primary">Add Device</a>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Manufacturer</th>
+        <th>Type</th>
+        <th>OS</th>
+        <th>RAM (GB)</th>
+        <th>Assigned To</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (device of devices; track device.id) {
+        <tr>
+          <td>{{ device.name }}</td>
+          <td>{{ device.manufacturer }}</td>
+          <td>{{ device.type }}</td>
+          <td>{{ device.operatingSystem }} {{ device.osVersion }}</td>
+          <td>{{ device.ram }}</td>
+          <td>
+            @if (device.assignedUserName) {
+              {{ device.assignedUserName }}
+            } @else {
+              <span class="badge bg-secondary">Unassigned</span>
+            }
+          </td>
+          <td>
+            <a [routerLink]="['/devices', device.id]" class="btn btn-sm btn-info me-1">View</a>
+            <button class="btn btn-sm btn-danger" (click)="deleteDevice(device.id)">Delete</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7" class="text-center">No devices found.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,90 @@
+<div class="container">
+  <h2>{{ isEditMode ? 'Edit Device' : 'Add Device' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-control" formControlName="name"
+             [class.is-invalid]="f['name'].invalid && f['name'].touched" />
+      @if (f['name'].errors?.['required'] && f['name'].touched) {
+        <div class="invalid-feedback d-block">Name is required.</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Manufacturer</label>
+      <input type="text" class="form-control" formControlName="manufacturer"
+             [class.is-invalid]="f['manufacturer'].invalid && f['manufacturer'].touched" />
+      @if (f['manufacturer'].errors?.['required'] && f['manufacturer'].touched) {
+        <div class="invalid-feedback d-block">Manufacturer is required.</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Type</label>
+      <select class="form-select" formControlName="type"
+              [class.is-invalid]="f['type'].invalid && f['type'].touched">
+        <option value="" disabled>Select type...</option>
+        @for (t of deviceTypes; track t) {
+          <option [value]="t">{{ t }}</option>
+        }
+      </select>
+      @if (f['type'].errors?.['required'] && f['type'].touched) {
+        <div class="invalid-feedback d-block">Type is required.</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Operating System</label>
+      <input type="text" class="form-control" formControlName="operatingSystem"
+             [class.is-invalid]="f['operatingSystem'].invalid && f['operatingSystem'].touched" />
+      @if (f['operatingSystem'].errors?.['required'] && f['operatingSystem'].touched) {
+        <div class="invalid-feedback d-block">Operating system is required.</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">OS Version</label>
+      <input type="text" class="form-control" formControlName="osVersion"
+             [class.is-invalid]="f['osVersion'].invalid && f['osVersion'].touched" />
+      @if (f['osVersion'].errors?.['required'] && f['osVersion'].touched) {
+        <div class="invalid-feedback d-block">OS version is required.</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Processor</label>
+      <input type="text" class="form-control" formControlName="processor"
+             [class.is-invalid]="f['processor'].invalid && f['processor'].touched" />
+      @if (f['processor'].errors?.['required'] && f['processor'].touched) {
+        <div class="invalid-feedback d-block">Processor is required.</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">RAM (GB)</label>
+      <input type="number" class="form-control" formControlName="ram"
+             [class.is-invalid]="f['ram'].invalid && f['ram'].touched" />
+      @if (f['ram'].errors?.['required'] && f['ram'].touched) {
+        <div class="invalid-feedback d-block">RAM is required.</div>
+      }
+      @if (f['ram'].errors?.['min'] && f['ram'].touched) {
+        <div class="invalid-feedback d-block">RAM must be at least 1 GB.</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description <span class="text-muted">(optional)</span></label>
+      <textarea class="form-control" formControlName="description" rows="3"></textarea>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+
+  </form>
+</div>
