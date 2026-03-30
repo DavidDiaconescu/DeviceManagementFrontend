@@ -4,6 +4,22 @@
     <a routerLink="/devices/new" class="btn btn-primary">Add Device</a>
   </div>
 
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search devices..."
+           [(ngModel)]="searchQuery" (input)="onSearchInput()" (keyup.enter)="search()" />
+    <button class="btn btn-outline-secondary" [disabled]="isSearching" (click)="search()">
+      @if (isSearching) {
+        <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+        Searching...
+      } @else {
+        Search
+      }
+    </button>
+    @if (searchQuery) {
+      <button class="btn btn-outline-danger" (click)="clearSearch()">Clear</button>
+    }
+  </div>
+
   <table class="table table-bordered table-hover">
     <thead class="thead-dark">
       <tr>
@@ -13,6 +29,9 @@
         <th>OS</th>
         <th>RAM (GB)</th>
         <th>Assigned To</th>
+        @if (isSearchMode) {
+          <th>Score</th>
+        }
         <th>Actions</th>
       </tr>
     </thead>
@@ -31,6 +50,9 @@
               <span class="badge bg-secondary">Unassigned</span>
             }
           </td>
+          @if (isSearchMode) {
+            <td>{{ $any(device).score | number:'1.2-2' }}</td>
+          }
           <td>
             <a [routerLink]="['/devices', device.id]" class="btn btn-sm btn-info me-1">View</a>
             <button class="btn btn-sm btn-danger" (click)="deleteDevice(device.id)">Delete</button>
@@ -38,7 +60,7 @@
         </tr>
       } @empty {
         <tr>
-          <td colspan="7" class="text-center">No devices found.</td>
+          <td [attr.colspan]="isSearchMode ? 8 : 7" class="text-center">No devices found.</td>
         </tr>
       }
     </tbody>

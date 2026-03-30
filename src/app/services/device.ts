@@ -48,4 +48,12 @@ export class DeviceService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
+
+  search(query: string): Observable<SearchResult[]> {
+    return this.http.get<SearchResult[]>(`${this.baseUrl}/search?query=${encodeURIComponent(query)}`);
+  }
+}
+
+export interface SearchResult extends Device {
+  score: number;
 }
