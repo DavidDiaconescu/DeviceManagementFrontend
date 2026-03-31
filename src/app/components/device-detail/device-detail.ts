@@ -15,6 +15,7 @@ import { Device } from '../../models/device.model';
 export class DeviceDetail implements OnInit {
   device: Device | null = null;
   currentUserName: string | null;
+  isAdmin = false;
   isGeneratingDescription = false;
   descriptionError = '';
 
@@ -30,6 +31,11 @@ export class DeviceDetail implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.getCurrentUserRole() === 'Admin';
+    this.loadDevice();
+  }
+
+  loadDevice(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.deviceService.getById(id).subscribe(device => {
       this.device = device;
@@ -50,6 +56,14 @@ export class DeviceDetail implements OnInit {
     this.deviceService.unassign(this.device.id).subscribe(device => {
       this.device = device;
       this.cdr.detectChanges();
+    });
+  }
+
+  forceUnassign(): void {
+    if (!this.device) return;
+    this.deviceService.forceUnassign(this.device.id).subscribe({
+      next: () => this.loadDevice(),
+      error: err => console.error('Force unassign failed', err)
     });
   }
 

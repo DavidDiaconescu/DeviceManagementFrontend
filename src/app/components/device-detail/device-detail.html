@@ -68,13 +68,20 @@
 
         <hr />
 
-        @if (!device.assignedUserId) {
-          <button class="btn btn-success" (click)="assign()" style="border-radius: 20px;">Assign to me</button>
-        } @else if (device.assignedUserName === currentUserName) {
-          <button class="btn btn-outline-danger" (click)="unassign()" style="border-radius: 20px;">Unassign</button>
-        } @else {
-          <p class="text-muted mb-0">Currently in use by <strong>{{ device.assignedUserName }}</strong>.</p>
-        }
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          @if (!device.assignedUserId) {
+            <button class="btn btn-success" (click)="assign()" style="border-radius: 20px;">Assign to me</button>
+          } @else if (device.assignedUserName === currentUserName) {
+            <button class="btn btn-outline-danger" (click)="unassign()" style="border-radius: 20px;">Unassign</button>
+          } @else {
+            <p class="text-muted mb-0">Currently in use by <strong>{{ device.assignedUserName }}</strong>.</p>
+          }
+          @if (isAdmin && device.assignedUserId) {
+            <button class="btn btn-warning btn-sm" (click)="forceUnassign()" style="border-radius: 20px;">
+              Force Unassign
+            </button>
+          }
+        </div>
       </div>
     </div>
   </div>

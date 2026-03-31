@@ -9,7 +9,11 @@ import { AuthService } from './services/auth';
   styleUrl: './app.scss'
 })
 export class App {
-  constructor(public authService: AuthService, private router: Router) {}
+  isAdmin = false;
+
+  constructor(public authService: AuthService, private router: Router) {
+    this.isAdmin = this.authService.getCurrentUserRole() === 'Admin';
+  }
 
   logout(): void {
     this.authService.logout();

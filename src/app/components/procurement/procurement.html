@@ -1,0 +1,92 @@
+<div class="container py-4" style="max-width: 760px;">
+  <h2 style="font-weight: 700; color: #1a1a2e; font-size: 1.8rem;" class="mb-4">Procurement Planner</h2>
+
+  <div class="card mb-4" style="border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <div class="card-header fw-bold"
+         style="background: linear-gradient(135deg, #1a1a2e, #0f3460); color: white; border-radius: 16px 16px 0 0; padding: 16px 24px;">
+      Budget Parameters
+    </div>
+    <div class="card-body p-4">
+
+      @if (errorMessage) {
+        <div class="alert alert-danger">{{ errorMessage }}</div>
+      }
+
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 600; color: #666;">Total Budget</label>
+        <input type="number" class="form-control" placeholder="e.g. 50000"
+               [(ngModel)]="totalBudget" min="1" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 600; color: #666;">Number of Employees</label>
+        <input type="number" class="form-control" placeholder="e.g. 10"
+               [(ngModel)]="employeeCount" min="1" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 600; color: #666;">Currency</label>
+        <select class="form-select" [(ngModel)]="currency">
+          @for (c of currencies; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+      </div>
+
+      @if (budgetPerEmployeePreview !== null) {
+        <div class="alert alert-info mb-3" style="border-radius: 12px;">
+          Budget per employee: <strong>{{ budgetPerEmployeePreview | number }} {{ currency }}</strong>
+        </div>
+      }
+
+      <button class="btn" [disabled]="isLoading" (click)="getSuggestion()"
+              style="background: linear-gradient(135deg, #e94560, #c62a47); border: none; border-radius: 25px; padding: 10px 28px; font-weight: 600; color: white;">
+        @if (isLoading) {
+          <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+          Generating...
+        } @else {
+          Get AI Suggestion
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (suggestion) {
+    <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+      <div class="card-header fw-bold"
+           style="background: linear-gradient(135deg, #7c3aed, #5b21b6); color: white; border-radius: 16px 16px 0 0; padding: 16px 24px;">
+        AI Procurement Suggestion
+      </div>
+      <div class="card-body p-4">
+        <div class="row mb-3">
+          <div class="col-sm-4">
+            <div class="p-3 rounded-3" style="background: #f0f2f5; text-align: center;">
+              <div style="font-size: 0.8rem; color: #666; font-weight: 600;">TOTAL BUDGET</div>
+              <div style="font-size: 1.3rem; font-weight: 700; color: #1a1a2e;">
+                {{ suggestion.totalBudget | number }} {{ suggestion.currency }}
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="p-3 rounded-3" style="background: #f0f2f5; text-align: center;">
+              <div style="font-size: 0.8rem; color: #666; font-weight: 600;">EMPLOYEES</div>
+              <div style="font-size: 1.3rem; font-weight: 700; color: #1a1a2e;">
+                {{ suggestion.employeeCount }}
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="p-3 rounded-3" style="background: #f0f2f5; text-align: center;">
+              <div style="font-size: 0.8rem; color: #666; font-weight: 600;">BUDGET / EMPLOYEE</div>
+              <div style="font-size: 1.3rem; font-weight: 700; color: #1a1a2e;">
+                {{ suggestion.budgetPerEmployee | number }} {{ suggestion.currency }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-3" style="background: #fafafa; border: 1px solid #e8e8e8; white-space: pre-wrap; line-height: 1.7; color: #1a1a2e;">{{ suggestion.suggestion }}</div>
+      </div>
+    </div>
+  }
+</div>

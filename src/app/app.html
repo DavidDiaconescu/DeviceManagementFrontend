@@ -15,6 +15,12 @@
             <a class="nav-link" style="color: rgba(255,255,255,0.85)"
                routerLink="/users" routerLinkActive="active">Users</a>
           </li>
+          @if (isAdmin) {
+            <li class="nav-item">
+              <a class="nav-link" style="color: rgba(255,255,255,0.85)"
+                 routerLink="/procurement" routerLinkActive="active">Procurement</a>
+            </li>
+          }
         </ul>
         <div class="d-flex align-items-center gap-3">
           <span class="navbar-text" style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">

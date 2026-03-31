@@ -49,6 +49,10 @@ export class DeviceService {
     });
   }
 
+  forceUnassign(deviceId: number): Observable<Device> {
+    return this.http.delete<Device>(`${this.baseUrl}/${deviceId}/force-unassign`);
+  }
+
   search(query: string): Observable<SearchResult[]> {
     return this.http.get<SearchResult[]>(`${this.baseUrl}/search?query=${encodeURIComponent(query)}`);
   }
