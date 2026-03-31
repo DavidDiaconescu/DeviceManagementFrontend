@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DeviceService } from '../../services/device';
@@ -15,12 +15,14 @@ export class DeviceForm implements OnInit {
   isEditMode = false;
   deviceId: number | null = null;
   deviceTypes = Object.values(DeviceType);
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private deviceService: DeviceService
+    private deviceService: DeviceService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +61,7 @@ export class DeviceForm implements OnInit {
   }
 
   onSubmit(): void {
+    this.errorMessage = '';
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
 
@@ -77,7 +80,14 @@ export class DeviceForm implements OnInit {
       };
       this.deviceService.update(this.deviceId, request).subscribe({
         next: () => this.router.navigate(['/devices']),
-        error: err => console.error('Update failed', err)
+        error: err => {
+          if (err.status === 400) {
+            this.errorMessage = err.error || 'Device already exists or invalid data.';
+          } else {
+            this.errorMessage = 'An unexpected error occurred.';
+          }
+          this.cdr.detectChanges();
+        }
       });
     } else {
       const request: CreateDeviceRequest = {
@@ -91,7 +101,14 @@ export class DeviceForm implements OnInit {
       };
       this.deviceService.create(request).subscribe({
         next: () => this.router.navigate(['/devices']),
-        error: err => console.error('Create failed', err)
+        error: err => {
+          if (err.status === 400) {
+            this.errorMessage = err.error || 'Device already exists or invalid data.';
+          } else {
+            this.errorMessage = 'An unexpected error occurred.';
+          }
+          this.cdr.detectChanges();
+        }
       });
     }
   }

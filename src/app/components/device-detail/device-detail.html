@@ -1,41 +1,48 @@
 @if (device) {
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2>{{ device.name }}</h2>
-      <div>
-        <a [routerLink]="['/devices', device.id, 'edit']" class="btn btn-warning me-2">Edit</a>
-        <button class="btn btn-secondary" (click)="goBack()">Back</button>
-      </div>
-    </div>
+  <div class="container py-4">
+    <div class="card" style="border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
 
-    <div class="card">
-      <div class="card-body">
+      <div class="card-header d-flex justify-content-between align-items-center"
+           style="background: linear-gradient(135deg, #1a1a2e, #0f3460); color: white; border-radius: 16px 16px 0 0; padding: 20px 24px;">
+        <h4 class="mb-0 fw-bold">{{ device.name }}</h4>
+        <div>
+          <a [routerLink]="['/devices', device.id, 'edit']" class="btn btn-sm me-2"
+             style="background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 20px;">
+            Edit
+          </a>
+          <button class="btn btn-sm" (click)="goBack()"
+                  style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 20px;">
+            Back
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body p-4">
         <dl class="row">
-          <dt class="col-sm-3">Name</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">Name</dt>
           <dd class="col-sm-9">{{ device.name }}</dd>
 
-          <dt class="col-sm-3">Manufacturer</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">Manufacturer</dt>
           <dd class="col-sm-9">{{ device.manufacturer }}</dd>
 
-          <dt class="col-sm-3">Type</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">Type</dt>
           <dd class="col-sm-9">{{ device.type }}</dd>
 
-          <dt class="col-sm-3">Operating System</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">Operating System</dt>
           <dd class="col-sm-9">{{ device.operatingSystem }} {{ device.osVersion }}</dd>
 
-          <dt class="col-sm-3">Processor</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">Processor</dt>
           <dd class="col-sm-9">{{ device.processor }}</dd>
 
-          <dt class="col-sm-3">RAM (GB)</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">RAM (GB)</dt>
           <dd class="col-sm-9">{{ device.ram }}</dd>
 
-          <dt class="col-sm-3">Description</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">Description</dt>
           <dd class="col-sm-9">
             <p class="mb-2">{{ device.description || '—' }}</p>
             <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-sm btn-outline-primary"
-                      [disabled]="isGeneratingDescription"
-                      (click)="generateDescription()">
+              <button class="btn btn-sm" [disabled]="isGeneratingDescription" (click)="generateDescription()"
+                      style="background: linear-gradient(135deg, #7c3aed, #5b21b6); color: white; border: none; border-radius: 20px; padding: 6px 16px;">
                 @if (isGeneratingDescription) {
                   <span class="spinner-border spinner-border-sm me-1" role="status"></span>
                   Generating...
@@ -49,7 +56,7 @@
             </div>
           </dd>
 
-          <dt class="col-sm-3">Assigned To</dt>
+          <dt class="col-sm-3" style="font-weight: 600; color: #666;">Assigned To</dt>
           <dd class="col-sm-9">
             @if (device.assignedUserName) {
               {{ device.assignedUserName }}
@@ -62,9 +69,9 @@
         <hr />
 
         @if (!device.assignedUserId) {
-          <button class="btn btn-success" (click)="assign()">Assign to me</button>
+          <button class="btn btn-success" (click)="assign()" style="border-radius: 20px;">Assign to me</button>
         } @else if (device.assignedUserName === currentUserName) {
-          <button class="btn btn-outline-danger" (click)="unassign()">Unassign</button>
+          <button class="btn btn-outline-danger" (click)="unassign()" style="border-radius: 20px;">Unassign</button>
         } @else {
           <p class="text-muted mb-0">Currently in use by <strong>{{ device.assignedUserName }}</strong>.</p>
         }

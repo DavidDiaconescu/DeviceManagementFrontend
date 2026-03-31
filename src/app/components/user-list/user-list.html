@@ -7,6 +7,9 @@
         <th>Name</th>
         <th>Role</th>
         <th>Location</th>
+        @if (isAdmin) {
+          <th>Actions</th>
+        }
       </tr>
     </thead>
     <tbody>
@@ -15,10 +18,15 @@
           <td>{{ user.name }}</td>
           <td>{{ user.role }}</td>
           <td>{{ user.location }}</td>
+          @if (isAdmin) {
+            <td>
+              <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id)">Delete</button>
+            </td>
+          }
         </tr>
       } @empty {
         <tr>
-          <td colspan="3" class="text-center">No users found.</td>
+          <td [attr.colspan]="isAdmin ? 4 : 3" class="text-center">No users found.</td>
         </tr>
       }
     </tbody>

@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -9,7 +8,7 @@ import { Device } from '../../models/device.model';
 
 @Component({
   selector: 'app-device-list',
-  imports: [RouterModule, FormsModule, DecimalPipe],
+  imports: [RouterModule, FormsModule],
   templateUrl: './device-list.html',
   styleUrl: './device-list.scss',
 })
@@ -17,7 +16,7 @@ export class DeviceList implements OnInit {
   devices: Device[] = [];
   searchQuery = '';
   isSearching = false;
-  isSearchMode = false;
+  isSearchActive = false;
   private searchSubject = new Subject<string>();
 
   constructor(private deviceService: DeviceService, private router: Router, private cdr: ChangeDetectorRef) {}
@@ -29,7 +28,7 @@ export class DeviceList implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(query => {
-        this.isSearchMode = !!query.trim();
+        this.isSearchActive = !!query.trim();
         if (!query.trim()) {
           return this.deviceService.getAll();
         }
@@ -55,7 +54,7 @@ export class DeviceList implements OnInit {
   }
 
   loadDevices(): void {
-    this.isSearchMode = false;
+    this.isSearchActive = false;
     this.deviceService.getAll().subscribe({
       next: (devices) => {
         this.devices = devices;
@@ -77,6 +76,7 @@ export class DeviceList implements OnInit {
   clearSearch(): void {
     this.searchQuery = '';
     this.isSearching = false;
+    this.isSearchActive = false;
     this.searchSubject.next('');
   }
 

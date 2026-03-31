@@ -48,4 +48,8 @@ export class AuthService {
   getCurrentUserName(): string | null {
     return localStorage.getItem('name');
   }
+
+  getCurrentUserRole(): string | null {
+    return localStorage.getItem('role');
+  }
 }

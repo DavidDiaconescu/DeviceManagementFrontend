@@ -1,40 +1,42 @@
-<div class="container" style="max-width: 420px; margin-top: 60px;">
-  <div class="card">
-    <div class="card-body">
-      <h4 class="card-title mb-4">Login</h4>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card"
+       style="width: 100%; max-width: 420px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border: none; padding: 40px;">
+    <h4 class="mb-4 fw-bold" style="color: #1a1a2e;">Login</h4>
 
-      @if (errorMessage) {
-        <div class="alert alert-danger">{{ errorMessage }}</div>
-      }
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" formControlName="email"
-                 [class.is-invalid]="f['email'].invalid && f['email'].touched" />
-          @if (f['email'].errors?.['required'] && f['email'].touched) {
-            <div class="invalid-feedback d-block">Email is required.</div>
-          }
-          @if (f['email'].errors?.['email'] && f['email'].touched) {
-            <div class="invalid-feedback d-block">Enter a valid email.</div>
-          }
-        </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label fw-500">Email</label>
+        <input type="email" class="form-control" formControlName="email"
+               [class.is-invalid]="f['email'].invalid && f['email'].touched" />
+        @if (f['email'].errors?.['required'] && f['email'].touched) {
+          <div class="invalid-feedback d-block">Email is required.</div>
+        }
+        @if (f['email'].errors?.['email'] && f['email'].touched) {
+          <div class="invalid-feedback d-block">Enter a valid email.</div>
+        }
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-control" formControlName="password"
-                 [class.is-invalid]="f['password'].invalid && f['password'].touched" />
-          @if (f['password'].errors?.['required'] && f['password'].touched) {
-            <div class="invalid-feedback d-block">Password is required.</div>
-          }
-        </div>
+      <div class="mb-4">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" formControlName="password"
+               [class.is-invalid]="f['password'].invalid && f['password'].touched" />
+        @if (f['password'].errors?.['required'] && f['password'].touched) {
+          <div class="invalid-feedback d-block">Password is required.</div>
+        }
+      </div>
 
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-      </form>
+      <button type="submit" class="btn w-100"
+              style="background: linear-gradient(135deg, #e94560, #c62a47); border: none; border-radius: 25px; padding: 10px; font-weight: 600; color: white;">
+        Login
+      </button>
+    </form>
 
-      <p class="mt-3 text-center">
-        Don't have an account? <a routerLink="/register">Register</a>
-      </p>
-    </div>
+    <p class="mt-3 text-center text-muted" style="font-size: 0.9rem;">
+      Don't have an account? <a routerLink="/register" style="color: #e94560; text-decoration: none; font-weight: 500;">Register</a>
+    </p>
   </div>
 </div>

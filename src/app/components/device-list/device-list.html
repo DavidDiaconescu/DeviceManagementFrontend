@@ -1,12 +1,16 @@
-<div class="container">
+<div class="container-fluid px-4 py-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Devices</h2>
-    <a routerLink="/devices/new" class="btn btn-primary">Add Device</a>
+    <h2 style="font-weight: 700; color: #1a1a2e; font-size: 1.8rem;">Devices</h2>
+    <a routerLink="/devices/new" class="btn"
+       style="background: linear-gradient(135deg, #e94560, #c62a47); border: none; border-radius: 25px; padding: 8px 24px; font-weight: 600; color: white;">
+      Add Device
+    </a>
   </div>
 
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Search devices..."
-           [(ngModel)]="searchQuery" (input)="onSearchInput()" (keyup.enter)="search()" />
+           [(ngModel)]="searchQuery" (input)="onSearchInput()" (keyup.enter)="search()"
+           style="border-radius: 25px 0 0 25px; border: 2px solid #e0e0e0; padding: 10px 20px;" />
     <button class="btn btn-outline-secondary" [disabled]="isSearching" (click)="search()">
       @if (isSearching) {
         <span class="spinner-border spinner-border-sm me-1" role="status"></span>
@@ -20,49 +24,55 @@
     }
   </div>
 
-  <table class="table table-bordered table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>Name</th>
-        <th>Manufacturer</th>
-        <th>Type</th>
-        <th>OS</th>
-        <th>RAM (GB)</th>
-        <th>Assigned To</th>
-        @if (isSearchMode) {
-          <th>Score</th>
-        }
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (device of devices; track device.id) {
-        <tr>
-          <td>{{ device.name }}</td>
-          <td>{{ device.manufacturer }}</td>
-          <td>{{ device.type }}</td>
-          <td>{{ device.operatingSystem }} {{ device.osVersion }}</td>
-          <td>{{ device.ram }}</td>
-          <td>
-            @if (device.assignedUserName) {
-              {{ device.assignedUserName }}
-            } @else {
-              <span class="badge bg-secondary">Unassigned</span>
-            }
-          </td>
-          @if (isSearchMode) {
-            <td>{{ $any(device).score | number:'1.2-2' }}</td>
+  <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr style="background: linear-gradient(135deg, #1a1a2e, #0f3460); color: white;">
+          <th>Name</th>
+          <th>Manufacturer</th>
+          <th>Type</th>
+          <th>OS</th>
+          <th>RAM (GB)</th>
+          <th>Assigned To</th>
+          @if (isSearchActive) {
+            <th>Score</th>
           }
-          <td>
-            <a [routerLink]="['/devices', device.id]" class="btn btn-sm btn-info me-1">View</a>
-            <button class="btn btn-sm btn-danger" (click)="deleteDevice(device.id)">Delete</button>
-          </td>
+          <th>Actions</th>
         </tr>
-      } @empty {
-        <tr>
-          <td [attr.colspan]="isSearchMode ? 8 : 7" class="text-center">No devices found.</td>
-        </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (device of devices; track device.id) {
+          <tr>
+            <td>{{ device.name }}</td>
+            <td>{{ device.manufacturer }}</td>
+            <td>{{ device.type }}</td>
+            <td>{{ device.operatingSystem }} {{ device.osVersion }}</td>
+            <td>{{ device.ram }}</td>
+            <td>
+              @if (device.assignedUserName) {
+                {{ device.assignedUserName }}
+              } @else {
+                <span style="background: #f0f2f5; color: #666; border-radius: 12px; padding: 4px 10px; font-size: 0.8rem;">
+                  Unassigned
+                </span>
+              }
+            </td>
+            @if (isSearchActive) {
+              <td>{{ $any(device).score?.toFixed(0) }}</td>
+            }
+            <td>
+              <a [routerLink]="['/devices', device.id]" class="btn btn-sm me-1"
+                 style="background: #0f3460; color: white; border-radius: 15px;">View</a>
+              <button class="btn btn-sm" (click)="deleteDevice(device.id)"
+                      style="background: #e94560; color: white; border-radius: 15px;">Delete</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td [attr.colspan]="isSearchActive ? 8 : 7" class="text-center py-4 text-muted">No devices found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
